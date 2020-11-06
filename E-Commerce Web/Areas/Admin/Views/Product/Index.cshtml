@@ -1,0 +1,132 @@
+﻿@using ETic.Models;
+@model IEnumerable<Products>
+@{
+    ViewData["Title"] = "Index";
+}
+
+
+<br />
+<br />
+<hr />
+<div class="row">
+    <div class="col-6">
+        <h2 class="text-info">Ürün Listesi</h2>
+        
+        <h6 class="text-info">ARAMA</h6>
+
+    </div>
+    <hr />
+    <div class="col-6 text-right">
+        <a asp-action="Create" class="btn btn-info"><i class="fas fa-plus"></i>&nbsp; Yeni Ürün Ekle</a>
+    </div>
+</div>
+
+<form method="post">
+
+    <div class="row">
+        
+        <div class="col-3">
+            Fiyatı ile<input type="number" class="form-control" name="lowAmount" />
+        </div>
+        <div class="col-3">
+            arasında<input type="number" class="form-control" name="largeAmount" />
+        </div>
+        <div class="col-4">
+             <br /> <input type="submit" value="Ara" class="btn btn-success ml-auto"/>
+        </div>
+        <div class="col-3"></div>
+    </div>
+    <hr />
+</form>
+<br />
+<div>
+    <table class="table table-striped border" id="myTable">
+        <thead>
+            <tr class="table-info">
+                <th>
+                    @Html.DisplayNameFor(expression: c => c.Name)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(expression: c => c.Price)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(expression: c => c.productColor)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(expression: c => c.IsAvailable)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(expression: c => c.ProductTypeId)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(expression: c => c.SpecialTagId)
+                </th>
+
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.Name</td>
+                    <td>@item.Price</td>
+                    <td>@item.productColor</td>
+                    <td>@item.IsAvailable</td>
+                    <td>@item.ProductTypes.ProductType</td>
+                    <td>@item.SpecialTags.SpecialTag</td>
+                    <td>
+                        <partial name="_ProductButton"  model="@item.Id" />
+                    </td>
+                </tr>
+            }
+        </tbody>
+
+        
+    </table>
+</div>
+
+@section scripts{
+
+    <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#myTable').DataTable({
+
+                              
+                "language": {
+                    "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Turkish.json"
+                }
+            });
+           
+
+
+        });
+        $(function (){
+            var save = '@TempData["save"]'
+            if (save != '') {
+                alertify.success(save);
+            }
+        })
+        $(function (){
+            var save = '@TempData["edit"]'
+            if (save != '') {
+                alertify.success(save);
+            }
+        })
+        $(function (){
+            var save = '@TempData["delete"]'
+            if (save != '') {
+                alertify.success(save);
+            }
+        })
+
+      
+
+    </script>
+
+
+
+}

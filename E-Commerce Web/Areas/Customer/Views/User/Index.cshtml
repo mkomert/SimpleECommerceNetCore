@@ -1,0 +1,39 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+}
+
+<center><h1>Kayıt İşlemi Başarılı!</h1></center>
+<br />
+<br />
+</br>
+<center><a asp-action="Index" asp-controller="Home" class="btn btn-success">Alışverişe Başla</a></center>
+
+@section scripts{
+
+    <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
+    <script type="text/javascript">
+        $(function (){
+            var save = '@TempData["save"]'
+            if (save != '') {
+                alertify.success(save);
+            }
+        })
+        $(function (){
+            var save = '@TempData["edit"]'
+            if (save != '') {
+                alertify.success(save);
+            }
+        })
+        $(function (){
+            var save = '@TempData["delete"]'
+            if (save != '') {
+                alertify.success(save);
+            }
+        })
+
+    </script>
+
+
+
+}

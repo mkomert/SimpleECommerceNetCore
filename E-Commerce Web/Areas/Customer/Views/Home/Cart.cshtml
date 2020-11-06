@@ -1,0 +1,75 @@
+﻿@using ETic.Models
+@model List<Products>
+@{
+    ViewData["Title"] = "Cart";
+}
+
+<br />
+<h2>Sepetim</h2>
+
+<br />
+
+@if (Model.Count > 0)
+{
+
+
+
+
+<div class="row">
+    <table class="table table-bordered">
+        <thead>
+            <tr >
+                <th >Resmi</th>
+                <th>Adı</th>
+                <th>Fiyatı</th>
+                <th>Kategori</th>
+                <th>Rengi</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+            <tr>
+                <td>
+                    <img src="~/@item.Image" width="200px" height="150px" />
+                </td>
+                <td>@item.Name</td>
+                <td>@item.Price TL</td>
+                <td>@item.ProductTypes.ProductType</td>
+                <td>@item.productColor</td>
+                <td>
+                    <a asp-area="Customer" asp-action="Remove" asp-controller="Home"  asp-route-id="@item.Id" class="btn btn-danger">
+                        <i class="fas fa-trash-alt"></i>
+                    </a>
+                </td>
+            </tr>
+
+            }
+        </tbody>
+    </table>
+</div>
+
+<div class="row">
+    <div class="col-6">
+        <a asp-action="Index" asp-controller="Home" class="btn btn-success">Ana Sayfa</a>
+    </div>
+    <div class="col-6 text-right">
+        <h4>Toplam</h4>
+        <h4>Ödenecek : @Model.Sum(c => c.Price)  TL</h4>
+        <a asp-area="Customer" asp-action="Checkout" asp-controller="Order" class="btn btn-info">Ödeme İşlemi</a>
+    </div>
+</div>
+}
+
+else
+{
+    <br />
+    <center>
+        <div class="justify-content-md-center">
+            <p> SEPETİNİZDE ÜRÜN BULUNAMADI</p>
+            <a asp-action="Index" asp-controller="Home" class="btn btn-success">Alışverişe Başla</a>
+        </div>
+    </center>
+   
+}

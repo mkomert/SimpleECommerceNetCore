@@ -1,0 +1,16 @@
+﻿@using ETic.Models;
+@model dynamic
+@{
+    ViewData["Title"] = "Index";
+}
+
+
+@foreach (var item in Model)
+{
+    <tr>
+        <td>
+
+            @item.ProductType
+        </td>
+    </tr>
+}

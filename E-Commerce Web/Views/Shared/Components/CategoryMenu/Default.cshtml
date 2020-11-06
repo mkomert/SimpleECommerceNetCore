@@ -1,0 +1,25 @@
+﻿
+        <div class="dropdown ml-auto h-auto">
+            <button type="button" class="btn bg-dark rounded-pill dropdown-toggle" style="color:lightgrey" data-toggle="dropdown">
+
+                Kategoriler
+            </button>
+            <div class="dropdown-menu">
+                @foreach (var category in Model)
+                {
+                <a class="dropdown-item" asp-controller="Home"asp-action="ListByCategory" asp-route-id="@category.Id" >@category.ProductType</a>
+                }
+                </div>
+        </div>
+
+
+
+
+
+
+
+
+
+
+        
+         

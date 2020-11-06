@@ -1,0 +1,117 @@
+﻿@model ETic.Models.Products
+@{
+    ViewData["Title"] = "Details";
+}
+@using ETic.Utility
+@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+
+@{
+
+    List<Products> products = HttpContextAccessor.HttpContext.Session.Get<List<Products>>("products");
+    Products product = null;
+    if (products != null)
+    {
+        product = products.FirstOrDefault(c => c.Id == Model.Id);
+    }
+
+}
+
+
+<h2 class="text-info">Ürün Detayı</h2>
+<form asp-action="Detail" method="post" enctype="multipart/form-data">
+    <div class="p-4 rounded border row">
+        <div asp-validation-summary="ModelOnly" class="text-danger">
+
+        </div>
+        <div class="col-8">
+            <div class="form-group row">
+                <div class="col-4">
+                    <label asp-for="Name"></label>
+                </div>
+                <div class="col-8">
+                    <input type="hidden" asp-for="Id" />
+                    <input asp-for="Name" readonly="readonly" class="form-control" />
+                </div>
+                <span asp-validation-for="Name" class="text-danger"></span>
+
+            </div>
+            <div class="form-group row">
+                <div class="col-4">
+                    <label asp-for="Price"></label>
+                </div>
+                <div class="col-8">
+                    <input asp-for="Price" readonly="readonly" class="form-control" />
+                </div>
+                <span asp-validation-for="Price" class="text-danger"></span>
+
+            </div>
+
+
+            <div class="form-group row">
+                <div class="col-4">
+                    <label asp-for="productColor"></label>
+                </div>
+                <div class="col-8">
+                    <input asp-for="productColor" readonly="readonly" class="form-control" />
+                </div>
+                <span asp-validation-for="productColor" class="text-danger"></span>
+
+            </div>
+            <div class="form-group row">
+                <div class="col-4"></div>
+                <div class="col-8">
+                    @if (product != null)
+                    {
+                        <button type="submit" class="btn btn-danger form-control" asp-action="Remove" asp-route-id="@Model.Id">Sepetten Kaldır</button>
+                    }
+                    else
+                    {
+                        <input type="submit" class="btn btn-info form-control" value="Sepete Ekle" />
+                    }
+
+                </div>
+
+            </div>
+
+
+
+            <div class="form-group">
+
+                <a asp-action="Index" class="btn btn-success">Listeye Geri Dön</a>
+            </div>
+        </div>
+        <div class="col-1"></div>
+        <div class="col-3">
+            <img src="~/@Model.Image" width="100%" style="border-radius: 5px; border: 1px solid #efefef" />
+            @if (Model.IsAvailable)
+            {
+                <br />
+                <br />
+                <center><h4 style="color:lightgray">Stokta!</h4></center>
+            }
+            else
+            {
+                <br />
+                <br />
+                <center><h4>Stokta Yok!</h4></center>
+            }
+        </div>
+
+    </div>
+</form>
+
+@section Scripts{
+
+    @{ await Html.RenderPartialAsync(partialViewName: "_ValidationScriptsPartial");}
+
+    <script>
+        $.validator.methods.number = function (value, element) {
+            return this.optional(element) || /-?(?:\d+|\d{1,3}(?:[\s\.,]\d{3})+)(?:[\.,]\d+)?$/.test(value);
+        }
+
+    </script>
+
+}
+
+

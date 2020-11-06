@@ -1,0 +1,129 @@
+﻿@using System.Net.Http
+@using ETic.Utility
+@using Microsoft.AspNetCore.Http
+
+@inject IHttpContextAccessor HttpContextAccessor
+
+@{
+    var userRole = HttpContextAccessor.HttpContext.Session.GetString("roleName");
+    int count = 0;
+    List<Products> products = HttpContextAccessor.HttpContext.Session.Get<List<Products>>("products");
+    if (products == null)
+    {
+        products = new List<Products>();
+    }
+    count = products.Count();
+
+}
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - ETic</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+    <script src="https://kit.fontawesome.com/899e6e6a0e.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.min.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css" />
+
+    <style>
+        .error {
+            color: red;
+        }
+    </style>
+</head>
+<body style="background-color:lightgrey">
+    <header>
+        <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+        <nav class="navbar navbar-expand-md navbar-dark bg-dark">
+            <div class="container">
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index"><img src="~/images/asd.png" height="35px" /></a>
+                <a class="navbar-expand text-decoration-none text-white-50" asp-area="" asp-controller="Home" asp-action="Index">KARPUZ ÇAPARİ</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+
+
+                <div class="collapse navbar-collapse justify-content-end" id="navbarsExampleDefault">
+
+                    <ul class="navbar-nav ">
+                        @if (userRole == "Admin")
+                        {
+
+                            <li class="nav-item active">
+                                <a class="nav-link " asp-area="Admin" asp-controller="ProductTypes" asp-action="Index">Kategori</a>
+                            </li>
+                            <li class="nav-item active">
+                                <a class="nav-link " asp-area="Admin" asp-controller="SpecialTag" asp-action="Index">Etiket</a>
+                            </li>
+                            <li class="nav-item active active">
+                                <a class="nav-link " asp-area="Admin" asp-controller="Product" asp-action="Index">Ürün</a>
+                            </li>
+                            <li class="nav-item active">
+                                <a class="nav-link" asp-area="Customer" asp-controller="User" asp-action="listUsers">Üyeler</a>
+                            </li>
+                            <li class="nav-item active">
+                                <a class="nav-link" asp-area="Admin" asp-controller="Role" asp-action="Index">Yetki</a>
+                            </li>
+                        }
+
+                       @await Component.InvokeAsync("CategoryMenu") 
+                        <partial name="_LoginPartial" />
+
+                        <li class="nav-item">
+                            <a class="btn btn-success btn-sm ml-3 " asp-area="Customer" asp-controller="Home" asp-action="Cart">
+                                <i class="fa fa-shopping-cart ml-auto"></i> Sepetim
+                                <span class="badge badge-light">(@count)</span>
+
+
+                            </a>
+                        </li>
+
+                    </ul>
+
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2020 - ETic - Mustafa Mert KARPUZ -  <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        </div>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+
+
+
+
+
+
+
+    @RenderSection("Scripts", required: false)
+
+
+
+</body>
+</html>
+
+@section Scripts{
+
+    @{ await Html.RenderPartialAsync(partialViewName: "_ValidationScriptsPartial");}
+
+
+}

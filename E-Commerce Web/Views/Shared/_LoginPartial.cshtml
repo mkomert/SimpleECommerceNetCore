@@ -1,0 +1,40 @@
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+
+
+
+
+
+@if (SignInManager.IsSignedIn(User))
+{
+
+    <form class="form-inline" id="logout" method="post" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+    </form>
+
+    <div class="dropdown ml-auto h-auto">
+        <button type="button" class="btn bg-dark rounded-pill dropdown-toggle" style="color:lightgrey" data-toggle="dropdown">
+
+            @User.Identity.Name
+        </button>
+        <div class="dropdown-menu">
+            <a class="dropdown-item" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Yönet</a>
+            <a class="dropdown-item" href="#" onclick="$(alert('Oturum Kapatıldı!')).val('Link 1'); $('#logout').submit()">Oturumu Kapat</a>
+        </div>
+    </div>
+
+}
+else
+{
+    <li class="nav-item">
+
+        <a class="nav-link" asp-area="Customer" asp-controller="User" asp-action="Create"><i class="fas fa-user-circle"></i> Kayıt Ol</a>
+    </li>
+    <li class="nav-item">
+
+        <a class="nav-link" asp-area="Identity" asp-page="/Account/Login"><i class="fas fa-sign-in-alt"></i> Giriş</a>
+    </li>
+}
+
+
+
