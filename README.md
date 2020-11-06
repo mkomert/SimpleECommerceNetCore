@@ -1,2 +1,2 @@
 # SimpleECommerceNetCore
-This project's aim to discover ecommerce with using .net core
+This project's aim to discovering ecommerce with using .net core
